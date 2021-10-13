@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.Navigation
 import com.example.tictactoe.databinding.FragmentStartBinding
+import java.util.zip.Inflater
 
 class StartFragment : Fragment() {
 
@@ -21,8 +22,12 @@ class StartFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentStartBinding.inflate(layoutInflater, container, false)
-        mBinding.newGameBtn.setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.action_startFragment_to_firstGameFragment))
+        mBinding.newGameBtn.setOnClickListener {
+        //Navigation.createNavigateOnClickListener(R.id.action_startFragment_to_firstGameFragment)
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.startFragment, FirstGameFragment())
+
+    }
         return mBinding.root
     }
 }

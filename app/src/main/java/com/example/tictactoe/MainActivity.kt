@@ -7,7 +7,7 @@ import androidx.navigation.Navigation
 import com.example.tictactoe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var mNavController: NavController
+    //lateinit var mNavController: NavController
     private var _binding: ActivityMainBinding? = null
     val mBinding get() = _binding!!
 
@@ -17,6 +17,6 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
-        mNavController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        //mNavController = Navigation.findNavController(this, R.id.nav_host_fragment1)
     }
 }
