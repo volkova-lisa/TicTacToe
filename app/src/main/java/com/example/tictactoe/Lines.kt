@@ -1,6 +1,6 @@
 package com.example.tictactoe
 
-    enum class WinningLine {
+    enum class Lines {
         ROW_0,
         ROW_1,
         ROW_2,

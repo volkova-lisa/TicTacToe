@@ -1,21 +1,18 @@
 package com.example.tictactoe
 
-import android.app.GameManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.tictactoe.databinding.FragmentFirstGameBinding
-import com.example.tictactoe.databinding.FragmentStartBinding
 
 class FirstGameFragment : Fragment() {
 
     lateinit var gameManager: MyGameManager
+    var computerTurn : Boolean = true
 
     private var _binding : FragmentFirstGameBinding? = null
     val mBinding get() = _binding!!
@@ -28,23 +25,23 @@ class FirstGameFragment : Fragment() {
 
         gameManager = MyGameManager()
 
-        mBinding.one.setOnClickListener { onBoxClicked(mBinding.one, Position(0, 0)) }
-        mBinding.two.setOnClickListener { onBoxClicked(mBinding.two, Position(0, 1)) }
-        mBinding.three.setOnClickListener { onBoxClicked(mBinding.three, Position(0, 2)) }
-        mBinding.four.setOnClickListener { onBoxClicked(mBinding.four, Position(1, 0)) }
-        mBinding.five.setOnClickListener { onBoxClicked(mBinding.five, Position(1, 1)) }
-        mBinding.six.setOnClickListener { onBoxClicked(mBinding.six, Position(1, 2)) }
-        mBinding.seven.setOnClickListener { onBoxClicked(mBinding.seven, Position(2, 0)) }
-        mBinding.eight.setOnClickListener { onBoxClicked(mBinding.eight, Position(2, 1)) }
-        mBinding.nine.setOnClickListener { onBoxClicked(mBinding.nine, Position(2, 2)) }
+        mBinding.one.setOnClickListener { onBoxClicked(mBinding.one, WhichCell(0, 0)) }
+        mBinding.two.setOnClickListener { onBoxClicked(mBinding.two, WhichCell(0, 1)) }
+        mBinding.three.setOnClickListener { onBoxClicked(mBinding.three, WhichCell(0, 2)) }
+        mBinding.four.setOnClickListener { onBoxClicked(mBinding.four, WhichCell(1, 0)) }
+        mBinding.five.setOnClickListener { onBoxClicked(mBinding.five, WhichCell(1, 1)) }
+        mBinding.six.setOnClickListener { onBoxClicked(mBinding.six, WhichCell(1, 2)) }
+        mBinding.seven.setOnClickListener { onBoxClicked(mBinding.seven, WhichCell(2, 0)) }
+        mBinding.eight.setOnClickListener { onBoxClicked(mBinding.eight, WhichCell(2, 1)) }
+        mBinding.nine.setOnClickListener { onBoxClicked(mBinding.nine, WhichCell(2, 2)) }
 
         return mBinding.root
     }
 
-    private fun onBoxClicked(box: TextView, position: Position) {
+    private fun onBoxClicked(box: TextView, whichCell: WhichCell) {
         if (box.text.isEmpty()) {
             box.text = gameManager.currentPlayerMark
-            val winningLine = gameManager.makeMove(position)
+            val winningLine = gameManager.makeMove(whichCell)
             if (winningLine != null) {
                 disableBoxes()
                 mBinding.startNewGameButton.visibility = View.VISIBLE
@@ -102,18 +99,18 @@ class FirstGameFragment : Fragment() {
         mBinding.nine.isEnabled = false
     }
 
-    private fun showWinner(winningLine: WinningLine) {
-        val (winningBoxes, background) = when (winningLine) {
-            WinningLine.ROW_0 -> Pair(listOf(mBinding.one, mBinding.two, mBinding.three), R.drawable.horiz_line)
-            WinningLine.ROW_1 -> Pair(listOf(mBinding.four, mBinding.five, mBinding.six), R.drawable.horiz_line)
-            WinningLine.ROW_2 -> Pair(listOf(mBinding.seven, mBinding.eight, mBinding.nine), R.drawable.horiz_line)
-            WinningLine.COLUMN_0 -> Pair(listOf(mBinding.one, mBinding.four, mBinding.seven), R.drawable.vert_line)
-            WinningLine.COLUMN_1 -> Pair(listOf(mBinding.two, mBinding.five, mBinding.eight), R.drawable.vert_line)
-            WinningLine.COLUMN_2 -> Pair(listOf(mBinding.three, mBinding.six, mBinding.nine), R.drawable.vert_line)
-            WinningLine.DIAGONAL_LEFT -> Pair(listOf(mBinding.one, mBinding.five, mBinding.nine),
+    private fun showWinner(lines: Lines) {
+        val (winningBoxes, background) = when (lines) {
+            Lines.ROW_0 -> Pair(listOf(mBinding.one, mBinding.two, mBinding.three), R.drawable.horiz_line)
+            Lines.ROW_1 -> Pair(listOf(mBinding.four, mBinding.five, mBinding.six), R.drawable.horiz_line)
+            Lines.ROW_2 -> Pair(listOf(mBinding.seven, mBinding.eight, mBinding.nine), R.drawable.horiz_line)
+            Lines.COLUMN_0 -> Pair(listOf(mBinding.one, mBinding.four, mBinding.seven), R.drawable.vert_line)
+            Lines.COLUMN_1 -> Pair(listOf(mBinding.two, mBinding.five, mBinding.eight), R.drawable.vert_line)
+            Lines.COLUMN_2 -> Pair(listOf(mBinding.three, mBinding.six, mBinding.nine), R.drawable.vert_line)
+            Lines.DIAGONAL_LEFT -> Pair(listOf(mBinding.one, mBinding.five, mBinding.nine),
                 R.drawable.left_digonal
             )
-            WinningLine.DIAGONAL_RIGHT -> Pair(listOf(mBinding.three, mBinding.five, mBinding.seven),
+            Lines.DIAGONAL_RIGHT -> Pair(listOf(mBinding.three, mBinding.five, mBinding.seven),
                 R.drawable.right_diagonal
             )
         }

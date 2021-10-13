@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import com.example.tictactoe.databinding.FragmentFirstGameBinding
 import com.example.tictactoe.databinding.FragmentSecondGameBinding
 
 class SecondGameFragment : Fragment() {
@@ -25,23 +24,23 @@ class SecondGameFragment : Fragment() {
 
         gameManager = MyGameManager()
 
-        mBinding.oneNew.setOnClickListener { onBoxClicked(mBinding.oneNew, Position(0, 0)) }
-        mBinding.twoNew.setOnClickListener { onBoxClicked(mBinding.twoNew, Position(0, 1)) }
-        mBinding.threeNew.setOnClickListener { onBoxClicked(mBinding.threeNew, Position(0, 2)) }
-        mBinding.fourNew.setOnClickListener { onBoxClicked(mBinding.fourNew, Position(1, 0)) }
-        mBinding.fiveNew.setOnClickListener { onBoxClicked(mBinding.fiveNew, Position(1, 1)) }
-        mBinding.sixNew.setOnClickListener { onBoxClicked(mBinding.sixNew, Position(1, 2)) }
-        mBinding.sevenNew.setOnClickListener { onBoxClicked(mBinding.sevenNew, Position(2, 0)) }
-        mBinding.eightNew.setOnClickListener { onBoxClicked(mBinding.eightNew, Position(2, 1)) }
-        mBinding.nineNew.setOnClickListener { onBoxClicked(mBinding.nineNew, Position(2, 2)) }
+        mBinding.oneNew.setOnClickListener { onBoxClicked(mBinding.oneNew, WhichCell(0, 0)) }
+        mBinding.twoNew.setOnClickListener { onBoxClicked(mBinding.twoNew, WhichCell(0, 1)) }
+        mBinding.threeNew.setOnClickListener { onBoxClicked(mBinding.threeNew, WhichCell(0, 2)) }
+        mBinding.fourNew.setOnClickListener { onBoxClicked(mBinding.fourNew, WhichCell(1, 0)) }
+        mBinding.fiveNew.setOnClickListener { onBoxClicked(mBinding.fiveNew, WhichCell(1, 1)) }
+        mBinding.sixNew.setOnClickListener { onBoxClicked(mBinding.sixNew, WhichCell(1, 2)) }
+        mBinding.sevenNew.setOnClickListener { onBoxClicked(mBinding.sevenNew, WhichCell(2, 0)) }
+        mBinding.eightNew.setOnClickListener { onBoxClicked(mBinding.eightNew, WhichCell(2, 1)) }
+        mBinding.nineNew.setOnClickListener { onBoxClicked(mBinding.nineNew, WhichCell(2, 2)) }
 
         return mBinding.root
     }
 
-    private fun onBoxClicked(box: TextView, position: Position) {
+    private fun onBoxClicked(box: TextView, whichCell: WhichCell) {
         if (box.text.isEmpty()) {
             box.text = gameManager.currentPlayerMark
-            val winningLine = gameManager.makeMove(position)
+            val winningLine = gameManager.makeMove(whichCell)
             if (winningLine != null) {
                 disableBoxes()
                 mBinding.startNewGameButtonNew.visibility = View.VISIBLE
@@ -99,18 +98,18 @@ class SecondGameFragment : Fragment() {
         mBinding.nineNew.isEnabled = false
     }
 
-    private fun showWinner(winningLine: WinningLine) {
-        val (winningBoxes, background) = when (winningLine) {
-            WinningLine.ROW_0 -> Pair(listOf(mBinding.oneNew, mBinding.twoNew, mBinding.threeNew), R.drawable.horiz_line)
-            WinningLine.ROW_1 -> Pair(listOf(mBinding.fourNew, mBinding.fiveNew, mBinding.sixNew), R.drawable.horiz_line)
-            WinningLine.ROW_2 -> Pair(listOf(mBinding.sevenNew, mBinding.eightNew, mBinding.nineNew), R.drawable.horiz_line)
-            WinningLine.COLUMN_0 -> Pair(listOf(mBinding.oneNew, mBinding.fourNew, mBinding.sevenNew), R.drawable.vert_line)
-            WinningLine.COLUMN_1 -> Pair(listOf(mBinding.twoNew, mBinding.fiveNew, mBinding.eightNew), R.drawable.vert_line)
-            WinningLine.COLUMN_2 -> Pair(listOf(mBinding.threeNew, mBinding.sixNew, mBinding.nineNew), R.drawable.vert_line)
-            WinningLine.DIAGONAL_LEFT -> Pair(listOf(mBinding.oneNew, mBinding.fiveNew, mBinding.nineNew),
+    private fun showWinner(lines: Lines) {
+        val (winningBoxes, background) = when (lines) {
+            Lines.ROW_0 -> Pair(listOf(mBinding.oneNew, mBinding.twoNew, mBinding.threeNew), R.drawable.horiz_line)
+            Lines.ROW_1 -> Pair(listOf(mBinding.fourNew, mBinding.fiveNew, mBinding.sixNew), R.drawable.horiz_line)
+            Lines.ROW_2 -> Pair(listOf(mBinding.sevenNew, mBinding.eightNew, mBinding.nineNew), R.drawable.horiz_line)
+            Lines.COLUMN_0 -> Pair(listOf(mBinding.oneNew, mBinding.fourNew, mBinding.sevenNew), R.drawable.vert_line)
+            Lines.COLUMN_1 -> Pair(listOf(mBinding.twoNew, mBinding.fiveNew, mBinding.eightNew), R.drawable.vert_line)
+            Lines.COLUMN_2 -> Pair(listOf(mBinding.threeNew, mBinding.sixNew, mBinding.nineNew), R.drawable.vert_line)
+            Lines.DIAGONAL_LEFT -> Pair(listOf(mBinding.oneNew, mBinding.fiveNew, mBinding.nineNew),
                 R.drawable.left_digonal
             )
-            WinningLine.DIAGONAL_RIGHT -> Pair(listOf(mBinding.threeNew, mBinding.fiveNew, mBinding.sevenNew),
+            Lines.DIAGONAL_RIGHT -> Pair(listOf(mBinding.threeNew, mBinding.fiveNew, mBinding.sevenNew),
                 R.drawable.right_diagonal
             )
         }

@@ -1,6 +1,11 @@
 package com.example.tictactoe
 
+import android.util.Log
+
 class MyGameManager {
+
+    //need to simulate click on player 2!!!
+    // vuah-la:    view.performClick()
 
         private var currentPlayer = 1
         var player1Points = 0
@@ -17,12 +22,18 @@ class MyGameManager {
             intArrayOf(0, 0, 0)
         )
 
-         fun makeMove(position: Position): WinningLine? {
-            state[position.row][position.column] = currentPlayer
+         fun makeMove(whichCell: WhichCell): Lines? {
+            state[whichCell.row][whichCell.column] = currentPlayer
             val winningLine = hasGameEnded()
 
             if (winningLine == null) {
                 currentPlayer = 3 - currentPlayer
+                //here becomes comp turn
+                if (currentPlayer%2 == 0) {
+                    //simulate click??
+                    Log.d("-----------------","-----------------------------------------------")
+
+                }
             } else {
                 when (currentPlayer) {
                     1 -> player1Points++
@@ -42,46 +53,26 @@ class MyGameManager {
             currentPlayer = 1
         }
 
-        private fun hasGameEnded(): WinningLine? {
+        private fun hasGameEnded(): Lines? {
             if (state[0][0] == currentPlayer && state[0][1] == currentPlayer && state[0][2] == currentPlayer) {
-                return WinningLine.ROW_0
+                return Lines.ROW_0
             } else if (state[1][0] == currentPlayer && state[1][1] == currentPlayer && state[1][2] == currentPlayer) {
-                return WinningLine.ROW_1
+                return Lines.ROW_1
             } else if (state[2][0] == currentPlayer && state[2][1] == currentPlayer && state[2][2] == currentPlayer) {
-                return WinningLine.ROW_2
+                return Lines.ROW_2
             } else if (state[0][0] == currentPlayer && state[1][0] == currentPlayer && state[2][0] == currentPlayer) {
-                return WinningLine.COLUMN_0
+                return Lines.COLUMN_0
             } else if (state[0][1] == currentPlayer && state[1][1] == currentPlayer && state[2][1] == currentPlayer) {
-                return WinningLine.COLUMN_1
+                return Lines.COLUMN_1
             } else if (state[0][2] == currentPlayer && state[1][2] == currentPlayer && state[2][2] == currentPlayer) {
-                return WinningLine.COLUMN_2
+                return Lines.COLUMN_2
             } else if (state[0][0] == currentPlayer && state[1][1] == currentPlayer && state[2][2] == currentPlayer) {
-                return WinningLine.DIAGONAL_LEFT
+                return Lines.DIAGONAL_LEFT
             } else if (state[0][2] == currentPlayer && state[1][1] == currentPlayer && state[2][0] == currentPlayer) {
-                return WinningLine.DIAGONAL_RIGHT
+                return Lines.DIAGONAL_RIGHT
             }
             return null
         }
 
-        private fun hasGameEndedV2(): Boolean {
-            state.forEach { row ->
-                val hasWon = row.all { player -> player == currentPlayer }
-                if (hasWon) return true
-            }
 
-            for (i: Int in state.indices) {
-                val hasWon = state[i].all { player -> player == currentPlayer }
-                if (hasWon) return true
-            }
-
-            for (i in state.indices) {
-                if (state[i][i] != currentPlayer) return false
-            }
-
-            for (i in state.size until 0) {
-                if (state[i][i] != currentPlayer) return false
-            }
-
-            return true
-        }
 }
