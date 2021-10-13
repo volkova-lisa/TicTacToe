@@ -26,7 +26,6 @@ class StartFragment : Fragment() {
         //Navigation.createNavigateOnClickListener(R.id.action_startFragment_to_firstGameFragment)
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
             transaction.replace(R.id.startFragment, FirstGameFragment())
-
     }
         return mBinding.root
     }

@@ -5,15 +5,119 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import com.example.tictactoe.databinding.FragmentFirstGameBinding
+import com.example.tictactoe.databinding.FragmentSecondGameBinding
 
 class SecondGameFragment : Fragment() {
+
+    lateinit var gameManager: MyGameManager
+
+    private var _binding : FragmentSecondGameBinding? = null
+    val mBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second_game, container, false)
+        _binding = FragmentSecondGameBinding.inflate(layoutInflater, container, false)
+
+        gameManager = MyGameManager()
+
+        mBinding.oneNew.setOnClickListener { onBoxClicked(mBinding.oneNew, Position(0, 0)) }
+        mBinding.twoNew.setOnClickListener { onBoxClicked(mBinding.twoNew, Position(0, 1)) }
+        mBinding.threeNew.setOnClickListener { onBoxClicked(mBinding.threeNew, Position(0, 2)) }
+        mBinding.fourNew.setOnClickListener { onBoxClicked(mBinding.fourNew, Position(1, 0)) }
+        mBinding.fiveNew.setOnClickListener { onBoxClicked(mBinding.fiveNew, Position(1, 1)) }
+        mBinding.sixNew.setOnClickListener { onBoxClicked(mBinding.sixNew, Position(1, 2)) }
+        mBinding.sevenNew.setOnClickListener { onBoxClicked(mBinding.sevenNew, Position(2, 0)) }
+        mBinding.eightNew.setOnClickListener { onBoxClicked(mBinding.eightNew, Position(2, 1)) }
+        mBinding.nineNew.setOnClickListener { onBoxClicked(mBinding.nineNew, Position(2, 2)) }
+
+        return mBinding.root
+    }
+
+    private fun onBoxClicked(box: TextView, position: Position) {
+        if (box.text.isEmpty()) {
+            box.text = gameManager.currentPlayerMark
+            val winningLine = gameManager.makeMove(position)
+            if (winningLine != null) {
+                disableBoxes()
+                mBinding.startNewGameButtonNew.visibility = View.VISIBLE
+                showWinner(winningLine)
+            }
+        }
+        mBinding.startNewGameButtonNew.setOnClickListener {
+            mBinding.startNewGameButtonNew.visibility = View.GONE
+            gameManager.reset()
+            resetboxes()
+        }
+
+    }
+
+    private fun resetboxes() {
+        mBinding.oneNew.text = ""
+        mBinding.twoNew.text = ""
+        mBinding.threeNew.text = ""
+        mBinding.fourNew.text = ""
+        mBinding.fiveNew.text = ""
+        mBinding.sixNew.text = ""
+        mBinding.sevenNew.text = ""
+        mBinding.eightNew.text = ""
+        mBinding.nineNew.text = ""
+        mBinding.oneNew.background = null
+        mBinding.twoNew.background = null
+        mBinding.threeNew.background = null
+        mBinding.fourNew.background = null
+        mBinding.fiveNew.background = null
+        mBinding.sixNew.background = null
+        mBinding.sevenNew.background = null
+        mBinding.eightNew.background = null
+        mBinding.nineNew.background = null
+        mBinding.oneNew.isEnabled = true
+        mBinding.twoNew.isEnabled = true
+        mBinding.threeNew.isEnabled = true
+        mBinding.fourNew.isEnabled = true
+        mBinding.fiveNew.isEnabled = true
+        mBinding.sixNew.isEnabled = true
+        mBinding.sevenNew.isEnabled = true
+        mBinding.eightNew.isEnabled = true
+        mBinding.nineNew.isEnabled = true
+    }
+
+
+    private fun disableBoxes() {
+        mBinding.oneNew.isEnabled = false
+        mBinding.twoNew.isEnabled = false
+        mBinding.threeNew.isEnabled = false
+        mBinding.fourNew.isEnabled = false
+        mBinding.fiveNew.isEnabled = false
+        mBinding.sixNew.isEnabled = false
+        mBinding.sevenNew.isEnabled = false
+        mBinding.eightNew.isEnabled = false
+        mBinding.nineNew.isEnabled = false
+    }
+
+    private fun showWinner(winningLine: WinningLine) {
+        val (winningBoxes, background) = when (winningLine) {
+            WinningLine.ROW_0 -> Pair(listOf(mBinding.oneNew, mBinding.twoNew, mBinding.threeNew), R.drawable.horiz_line)
+            WinningLine.ROW_1 -> Pair(listOf(mBinding.fourNew, mBinding.fiveNew, mBinding.sixNew), R.drawable.horiz_line)
+            WinningLine.ROW_2 -> Pair(listOf(mBinding.sevenNew, mBinding.eightNew, mBinding.nineNew), R.drawable.horiz_line)
+            WinningLine.COLUMN_0 -> Pair(listOf(mBinding.oneNew, mBinding.fourNew, mBinding.sevenNew), R.drawable.vert_line)
+            WinningLine.COLUMN_1 -> Pair(listOf(mBinding.twoNew, mBinding.fiveNew, mBinding.eightNew), R.drawable.vert_line)
+            WinningLine.COLUMN_2 -> Pair(listOf(mBinding.threeNew, mBinding.sixNew, mBinding.nineNew), R.drawable.vert_line)
+            WinningLine.DIAGONAL_LEFT -> Pair(listOf(mBinding.oneNew, mBinding.fiveNew, mBinding.nineNew),
+                R.drawable.left_digonal
+            )
+            WinningLine.DIAGONAL_RIGHT -> Pair(listOf(mBinding.threeNew, mBinding.fiveNew, mBinding.sevenNew),
+                R.drawable.right_diagonal
+            )
+        }
+
+        winningBoxes.forEach { box ->
+            box.background = ResourcesCompat.getDrawable(resources, R.drawable.right_diagonal, null)
+        }
     }
 
 }
