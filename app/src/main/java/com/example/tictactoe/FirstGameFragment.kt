@@ -40,12 +40,17 @@ class FirstGameFragment : Fragment() {
 
     private fun onBoxClicked(box: TextView, whichCell: WhichCell) {
         if (box.text.isEmpty()) {
-            box.text = gameManager.currentPlayerMark
-            val winningLine = gameManager.makeMove(whichCell)
-            if (winningLine != null) {
-                disableBoxes()
-                mBinding.startNewGameButton.visibility = View.VISIBLE
-                showWinner(winningLine)
+            //wrap makemove in if?
+            if (gameManager.currentPlayerMark == "X") {
+                box.text = gameManager.currentPlayerMark
+                val winningLine = gameManager.makeMove(whichCell)
+                if (winningLine != null) {
+                    disableBoxes()
+                    mBinding.startNewGameButton.visibility = View.VISIBLE
+                    showWinner(winningLine)
+                }
+            } else {
+                //make not move but simulateCompMove
             }
         }
         mBinding.startNewGameButton.setOnClickListener {
@@ -55,6 +60,7 @@ class FirstGameFragment : Fragment() {
         }
 
     }
+
 
     private fun resetboxes() {
         mBinding.one.text = ""

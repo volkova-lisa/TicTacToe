@@ -1,6 +1,8 @@
 package com.example.tictactoe
 
 import android.util.Log
+import kotlinx.coroutines.*
+import kotlin.random.Random
 
 class MyGameManager {
 
@@ -8,6 +10,8 @@ class MyGameManager {
     // vuah-la:    view.performClick()
 
         private var currentPlayer = 1
+        private val job = Job()
+        private val scope = CoroutineScope(Dispatchers.Main + job)
 
     val currentPlayerMark: String
             get() {
@@ -18,29 +22,37 @@ class MyGameManager {
             intArrayOf(0, 0, 0), intArrayOf(0, 0, 0), intArrayOf(0, 0, 0)
         )
 
-         fun makeMove(whichCell: WhichCell): Lines? {
+         fun makeMove(whichCell: WhichCell): Lines?  {
             state[whichCell.row][whichCell.column] = currentPlayer
             val winningLine = hasGameEnded()
 
             if (winningLine == null) {
                 currentPlayer = 3 - currentPlayer
                 //here becomes comp turn
-                if (currentPlayer%2 == 0) {
-                    //simulate click??
-                    Log.d("-----------------","-----------------------------------------------")
-
-                }
+//                if (currentPlayer%2 == 0) {
+//                    //simulate click??
+//                        simulateCompMove()
+//                    Log.d("-----------------","-----------------------------------------------")
+//                }
             }
-
 
             return winningLine
         }
 
-        fun reset() {
+    //thats fkn impossible https://stackoverflow.com/questions/64566041/type-mismatch-error-while-using-a-coroutine
+    private fun simulateCompMove()= scope.launch {
+        withContext(Dispatchers.IO) {
+            delay(2000L + Random.nextInt(1, 10) * 1000L)
+
+            //currentId = Random.nextInt(0, boardList.size - 1)
+            //addToBoard(boardList[currentId])
+            //boardList.remove(boardList[currentId])
+        }
+    }
+
+    fun reset() {
             state = arrayOf(
-                intArrayOf(0, 0, 0),
-                intArrayOf(0, 0, 0),
-                intArrayOf(0, 0, 0)
+                intArrayOf(0, 0, 0), intArrayOf(0, 0, 0), intArrayOf(0, 0, 0)
             )
             currentPlayer = 1
         }
