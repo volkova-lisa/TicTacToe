@@ -8,18 +8,14 @@ class MyGameManager {
     // vuah-la:    view.performClick()
 
         private var currentPlayer = 1
-        var player1Points = 0
-        var player2Points = 0
 
     val currentPlayerMark: String
             get() {
                 return if (currentPlayer == 1) "X" else "O"
             }
 
-        private var state = arrayOf( // 2D Array
-            intArrayOf(0, 0, 0),
-            intArrayOf(0, 0, 0),
-            intArrayOf(0, 0, 0)
+        private var state = arrayOf(
+            intArrayOf(0, 0, 0), intArrayOf(0, 0, 0), intArrayOf(0, 0, 0)
         )
 
          fun makeMove(whichCell: WhichCell): Lines? {
@@ -34,12 +30,8 @@ class MyGameManager {
                     Log.d("-----------------","-----------------------------------------------")
 
                 }
-            } else {
-                when (currentPlayer) {
-                    1 -> player1Points++
-                    2 -> player2Points++
-                }
             }
+
 
             return winningLine
         }
