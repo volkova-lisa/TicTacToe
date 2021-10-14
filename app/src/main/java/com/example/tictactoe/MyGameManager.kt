@@ -9,7 +9,7 @@ class MyGameManager {
     //need to simulate click on player 2!!!
     // vuah-la:    view.performClick()
 
-        private var currentPlayer = 1
+        public var currentPlayer = 1
         private val job = Job()
         private val scope = CoroutineScope(Dispatchers.Main + job)
 
@@ -27,7 +27,7 @@ class MyGameManager {
             val winningLine = hasGameEnded()
 
             if (winningLine == null) {
-                currentPlayer = 3 - currentPlayer
+                //currentPlayer = 3 - currentPlayer
                 Log.d("---------", "my array " + whichCell.row + whichCell.column)
             }
 

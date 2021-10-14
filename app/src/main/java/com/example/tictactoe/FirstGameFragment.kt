@@ -49,6 +49,12 @@ class FirstGameFragment : Fragment() {
             showWinner(winningLine)
         }
         //передаем естафету компьютеру
+        gameManager.currentPlayer = 3 - gameManager.currentPlayer
+
+        if (mBinding.one.text == "" ) mBinding.one.performClick()
+        else  mBinding.two.performClick()
+
+
     }
 
         mBinding.startNewGameButton.setOnClickListener {
