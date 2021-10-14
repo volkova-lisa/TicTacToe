@@ -52,6 +52,22 @@ class FirstGameFragment : Fragment() {
             } else {
                 //make not move but simulateCompMove
                 //gameManager.simulateCompMove()
+
+                box.text = gameManager.currentPlayerMark
+                val winningLine = gameManager.simulateCompMove(whichCell)
+                if (winningLine != null) {
+                    disableBoxes()
+                    mBinding.startNewGameButton.visibility = View.VISIBLE
+                    showWinner(winningLine)
+                }
+
+//                box.text = gameManager.currentPlayerMark
+//                val winningLine = gameManager.makeMove(whichCell)
+//                if (winningLine != null) {
+//                    disableBoxes()
+//                    mBinding.startNewGameButton.visibility = View.VISIBLE
+//                    showWinner(winningLine)
+                }
             }
         }
         mBinding.startNewGameButton.setOnClickListener {
