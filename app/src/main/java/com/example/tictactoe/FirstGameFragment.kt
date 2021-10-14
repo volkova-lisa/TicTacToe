@@ -1,6 +1,7 @@
 package com.example.tictactoe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -34,14 +35,14 @@ class FirstGameFragment : Fragment() {
         mBinding.seven.setOnClickListener { onBoxClicked(mBinding.seven, WhichCell(2, 0)) }
         mBinding.eight.setOnClickListener { onBoxClicked(mBinding.eight, WhichCell(2, 1)) }
         mBinding.nine.setOnClickListener { onBoxClicked(mBinding.nine, WhichCell(2, 2)) }
-1
+
         return mBinding.root
     }
 // WHY DONT I JUST SIMULATE ONBOX CLIIIIIIIIIIICK
     private fun onBoxClicked(box: TextView, whichCell: WhichCell) {
         if (box.text.isEmpty()) {
             //wrap makemove in if?
-            //if (gameManager.currentPlayerMark == "X") {
+            if (gameManager.currentPlayerMark == "X") {
                 box.text = gameManager.currentPlayerMark
                 val winningLine = gameManager.makeMove(whichCell)
                 if (winningLine != null) {
@@ -49,17 +50,21 @@ class FirstGameFragment : Fragment() {
                     mBinding.startNewGameButton.visibility = View.VISIBLE
                     showWinner(winningLine)
                 }
-//            } else {
-//                //make not move but simulateCompMove
-//                //gameManager.simulateCompMove()
-//
-//                box.text = gameManager.currentPlayerMark
-//                val winningLine = gameManager.makeMove(whichCell)
-//                if (winningLine != null) {
-//                    disableBoxes()
-//                    mBinding.startNewGameButton.visibility = View.VISIBLE
-//                    //showWinner(winningLine)
-//                }
+                    //передаем естафету компьютеру
+            } else {
+
+                //make not move but simulateCompMove
+                //gameManager.simulateCompMove()
+
+                box.text = gameManager.currentPlayerMark
+                val winningLine = gameManager.makeMove(whichCell)
+                Log.d("+++", "+++" + whichCell)
+                if (winningLine != null) {
+                    disableBoxes()
+                    mBinding.startNewGameButton.visibility = View.VISIBLE
+                    //showWinner(winningLine)
+                }
+            }
 
 //                box.text = gameManager.currentPlayerMark
 //                val winningLine = gameManager.makeMove(whichCell)
