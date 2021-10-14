@@ -54,7 +54,7 @@ class FirstGameFragment : Fragment() {
                 //gameManager.simulateCompMove()
 
                 box.text = gameManager.currentPlayerMark
-                val winningLine = gameManager.simulateCompMove()
+                val winningLine = gameManager.simulateCompMove(whichCell)
                 if (winningLine != null) {
                     disableBoxes()
                     mBinding.startNewGameButton.visibility = View.VISIBLE
