@@ -69,11 +69,41 @@ class FirstGameFragment : Fragment() {
 
     private fun computerMakesMove(box: TextView, whichCell: WhichCell) {
         Log.d("0000000000000000000","ss"+emptyCellsNum())
-        val compBox = (0..9).random()
+        val compBox = (0 until emptyCellsList().size).random()
+        Log.d("6666666666666666", "hh" + compBox + "+" + emptyCellsList())
+        emptyCellsList()[compBox]!!.text = "0"
+//        when (compBox) {
+//            1 -> if (mBinding.one.text.isEmpty()) mBinding.one.text = "0"
+//            2 -> if (mBinding.two.text.isEmpty()) mBinding.two.text = "0"
+//            3 -> if (mBinding.three.text.isEmpty()) mBinding.three.text = "0"
+//            4 -> if (mBinding.four.text.isEmpty()) mBinding.four.text = "0"
+//            5 -> if (mBinding.five.text.isEmpty()) mBinding.five.text = "0"
+//            6 -> if (mBinding.six.text.isEmpty()) mBinding.six.text = "0"
+//            7 -> if (mBinding.seven.text.isEmpty()) mBinding.seven.text = "0"
+//            8 -> if (mBinding.eight.text.isEmpty()) mBinding.eight.text = "0"
+//            9 -> if (mBinding.nine.text.isEmpty()) mBinding.nine.text = "0"
+//        }
+
     }
 
+    fun emptyCellsList() : MutableList<TextView?> {
+        var arrayList = arrayOfNulls<TextView>(emptyCellsNum())
+        var mutList : MutableList<TextView?> = arrayList.toMutableList()
+        if (mBinding.one.text.isEmpty()) mutList.add(mBinding.one)
+        if (mBinding.two.text.isEmpty()) mutList.add(mBinding.two)
+        if (mBinding.three.text.isEmpty()) mutList.add(mBinding.three)
+        if (mBinding.four.text.isEmpty()) mutList.add(mBinding.four)
+        if (mBinding.five.text.isEmpty()) mutList.add(mBinding.five)
+        if (mBinding.six.text.isEmpty()) mutList.add(mBinding.six)
+        if (mBinding.seven.text.isEmpty()) mutList.add(mBinding.seven)
+        if (mBinding.eight.text.isEmpty()) mutList.add(mBinding.eight)
+        if (mBinding.nine.text.isEmpty()) mutList.add(mBinding.nine)
+        return mutList
+    }
+
+
     fun emptyCellsNum() : Int {
-        var num: Int = 1
+        var num = 0
         if (mBinding.one.text.isEmpty()) num++
         if (mBinding.two.text.isEmpty()) num++
         if (mBinding.three.text.isEmpty()) num++
@@ -82,9 +112,9 @@ class FirstGameFragment : Fragment() {
         if (mBinding.six.text.isEmpty()) num++
         if (mBinding.seven.text.isEmpty()) num++
         if (mBinding.eight.text.isEmpty()) num++
+        if (mBinding.nine.text.isEmpty()) num++
         return num
     }
-
 
     private fun resetboxes() {
         mBinding.one.text = ""
