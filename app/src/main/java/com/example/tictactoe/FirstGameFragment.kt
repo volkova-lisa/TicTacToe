@@ -74,21 +74,19 @@ class FirstGameFragment : Fragment() {
     ) {
         Log.d("0000000000000000000", "ss" + emptyCellsNum())
         val winningLine = gameManager.makeMove(whichCell)
-
         if (winningLine != null) {
+            showWinner(winningLine)
+            disableBoxes()
+            mBinding.startNewGameButton.visibility = View.VISIBLE
+            gameManager.currentPlayer = 3 - gameManager.currentPlayer
+
+        } else {
             if (list.size != 0) {
                 val compBox = (0 until list.size).random()
                 Log.d("6666666666666666", "hh" + compBox + "+" + list)
                 list[compBox]!!.text = "0"
             }
-            showWinner(winningLine)
-        } else {
-            disableBoxes()
-            mBinding.startNewGameButton.visibility = View.VISIBLE
-            gameManager.currentPlayer = 3 - gameManager.currentPlayer
-
         }
-
     }
 
     fun emptyCellsList(i: Int): MutableList<TextView> {
