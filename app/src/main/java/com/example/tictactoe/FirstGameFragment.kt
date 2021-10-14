@@ -75,9 +75,9 @@ class FirstGameFragment : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             //Log.d("0000000000000000000", "ss" + emptyCellsNum())
             val winningLine = gameManager.makeMove(whichCell)
-            delay(2000)
+            delay(1000)
             //not to wait for so long
-            delay((1000..3000).random().toLong())
+            //delay((1000..3000).random().toLong())
             if (winningLine != null) {
                 showWinner(winningLine)
                 disableBoxes()

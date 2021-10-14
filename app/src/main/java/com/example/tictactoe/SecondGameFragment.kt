@@ -71,7 +71,7 @@ class SecondGameFragment : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             //Log.d("0000000000000000000", "ss" + emptyCellsNum())
             val winningLine = gameManager.makeMove(whichCell)
-            delay(2000)
+            delay(1000)
             if (winningLine != null) {
                 showWinner(winningLine)
                 disableBoxes()
