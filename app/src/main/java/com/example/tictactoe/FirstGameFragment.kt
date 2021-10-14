@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.tictactoe.databinding.FragmentFirstGameBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class FirstGameFragment : Fragment() {
 
@@ -50,13 +53,10 @@ class FirstGameFragment : Fragment() {
                 showWinner(winningLine)
                 gameManager.currentPlayer = 3 - gameManager.currentPlayer
             }
-
-            //передаем естафету компьютеру
+            //передаем эстафету компьютеру
             var emptyCellsNum = emptyCellsNum()
-            var emptyCellsList = emptyCellsList(emptyCellsNum())
+            var emptyCellsList = emptyCellsList(emptyCellsNum)
             computerMakesMove(box, whichCell, emptyCellsList)
-            //if (mBinding.one.text == "" ) mBinding.one.performClick()
-            //else  mBinding.two.performClick()
         }
 
         mBinding.startNewGameButton.setOnClickListener {
@@ -72,19 +72,21 @@ class FirstGameFragment : Fragment() {
         whichCell: WhichCell,
         list: MutableList<TextView>
     ) {
-        Log.d("0000000000000000000", "ss" + emptyCellsNum())
-        val winningLine = gameManager.makeMove(whichCell)
-        if (winningLine != null) {
-            showWinner(winningLine)
-            disableBoxes()
-            mBinding.startNewGameButton.visibility = View.VISIBLE
-            gameManager.currentPlayer = 3 - gameManager.currentPlayer
+        GlobalScope.launch(Dispatchers.IO) {
+            Log.d("0000000000000000000", "ss" + emptyCellsNum())
+            val winningLine = gameManager.makeMove(whichCell)
+            if (winningLine != null) {
+                showWinner(winningLine)
+                disableBoxes()
+                mBinding.startNewGameButton.visibility = View.VISIBLE
+                gameManager.currentPlayer = 3 - gameManager.currentPlayer
 
-        } else {
-            if (list.size != 0) {
-                val compBox = (0 until list.size).random()
-                Log.d("6666666666666666", "hh" + compBox + "+" + list)
-                list[compBox]!!.text = "0"
+            } else {
+                if (list.size != 0) {
+                    val compBox = (0 until list.size).random()
+                    Log.d("6666666666666666", "hh" + compBox + "+" + list)
+                    list[compBox]!!.text = "0"
+                }
             }
         }
     }
