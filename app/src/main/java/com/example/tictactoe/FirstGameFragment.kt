@@ -51,13 +51,11 @@ class FirstGameFragment : Fragment() {
         }
 
         //передаем естафету компьютеру
-        emptyCellsNum()
-        emptyCellsList()
-        computerMakesMove(box,whichCell)
+        var emptyCellsNum = emptyCellsNum()
+        var emptyCellsList = emptyCellsList(emptyCellsNum())
+        computerMakesMove(box,whichCell, emptyCellsList)
         //if (mBinding.one.text == "" ) mBinding.one.performClick()
         //else  mBinding.two.performClick()
-
-
     }
 
         mBinding.startNewGameButton.setOnClickListener {
@@ -68,11 +66,11 @@ class FirstGameFragment : Fragment() {
 
     }
 
-    private fun computerMakesMove(box: TextView, whichCell: WhichCell) {
+    private fun computerMakesMove(box: TextView, whichCell: WhichCell, list: MutableList<TextView>) {
         Log.d("0000000000000000000","ss"+emptyCellsNum())
-        val compBox = (0 until emptyCellsList().size).random()
-        Log.d("6666666666666666", "hh" + compBox + "+" + emptyCellsList())
-        emptyCellsList()[compBox]!!.text = "0"
+        val compBox = (0 until list.size).random()
+        Log.d("6666666666666666", "hh" + compBox + "+" + list)
+        list[compBox]!!.text = "0"
 //        when (compBox) {
 //            1 -> if (mBinding.one.text.isEmpty()) mBinding.one.text = "0"
 //            2 -> if (mBinding.two.text.isEmpty()) mBinding.two.text = "0"
@@ -87,9 +85,8 @@ class FirstGameFragment : Fragment() {
 
     }
 
-    fun emptyCellsList() : MutableList<TextView?> {
-        var arrayList = arrayOfNulls<TextView>(emptyCellsNum())
-        var mutList : MutableList<TextView?> = arrayList.toMutableList()
+    fun emptyCellsList(i : Int) : MutableList<TextView> {
+        var mutList = mutableListOf<TextView>()
         if (mBinding.one.text.isEmpty()) mutList.add(mBinding.one)
         if (mBinding.two.text.isEmpty()) mutList.add(mBinding.two)
         if (mBinding.three.text.isEmpty()) mutList.add(mBinding.three)
