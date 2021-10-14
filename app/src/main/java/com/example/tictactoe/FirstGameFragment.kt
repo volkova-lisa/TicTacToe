@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.tictactoe.databinding.FragmentFirstGameBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FirstGameFragment : Fragment() {
@@ -73,8 +74,9 @@ class FirstGameFragment : Fragment() {
         list: MutableList<TextView>
     ) {
         GlobalScope.launch(Dispatchers.IO) {
-            Log.d("0000000000000000000", "ss" + emptyCellsNum())
+            //Log.d("0000000000000000000", "ss" + emptyCellsNum())
             val winningLine = gameManager.makeMove(whichCell)
+            delay(2000)
             if (winningLine != null) {
                 showWinner(winningLine)
                 disableBoxes()
