@@ -63,15 +63,16 @@ class SecondGameFragment : Fragment() {
             resetboxes()
         }
     }
-    private fun computerMakesMove(
+    fun computerMakesMove(
         box: TextView,
         whichCell: WhichCell,
         list: MutableList<TextView>
     ) {
         GlobalScope.launch(Dispatchers.IO) {
             //Log.d("0000000000000000000", "ss" + emptyCellsNum())
-            val winningLine = gameManager.makeMove(whichCell)
             delay(1000)
+            val winningLine = gameManager.makeMove(whichCell)
+
             if (winningLine != null) {
                 showWinner(winningLine)
                 disableBoxes()
@@ -81,7 +82,7 @@ class SecondGameFragment : Fragment() {
             } else {
                 if (list.size != 0) {
                     val compBox = (0 until list.size).random()
-                    Log.d("6666666666666666", "hh" + compBox + "+" + list)
+                    //Log.d("6666666666666666", "hh" + compBox + "+" + list)
                     list[compBox]!!.text = "0"
                 }
             }

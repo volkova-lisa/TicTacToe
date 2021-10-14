@@ -9,41 +9,43 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.tictactoe.databinding.FragmentFirstGameBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class FirstGameFragment : Fragment() {
+
 
     lateinit var gameManager: MyGameManager
 
     private var _binding: FragmentFirstGameBinding? = null
     val mBinding get() = _binding!!
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFirstGameBinding.inflate(layoutInflater, container, false)
+            _binding = FragmentFirstGameBinding.inflate(layoutInflater, container, false)
 
-        gameManager = MyGameManager()
+            gameManager = MyGameManager()
 
-        mBinding.one.setOnClickListener { onBoxClicked(mBinding.one, WhichCell(0, 0)) }
-        mBinding.two.setOnClickListener { onBoxClicked(mBinding.two, WhichCell(0, 1)) }
-        mBinding.three.setOnClickListener { onBoxClicked(mBinding.three, WhichCell(0, 2)) }
-        mBinding.four.setOnClickListener { onBoxClicked(mBinding.four, WhichCell(1, 0)) }
-        mBinding.five.setOnClickListener { onBoxClicked(mBinding.five, WhichCell(1, 1)) }
-        mBinding.six.setOnClickListener { onBoxClicked(mBinding.six, WhichCell(1, 2)) }
-        mBinding.seven.setOnClickListener { onBoxClicked(mBinding.seven, WhichCell(2, 0)) }
-        mBinding.eight.setOnClickListener { onBoxClicked(mBinding.eight, WhichCell(2, 1)) }
-        mBinding.nine.setOnClickListener { onBoxClicked(mBinding.nine, WhichCell(2, 2)) }
+            mBinding.one.setOnClickListener { onBoxClicked(mBinding.one, WhichCell(0, 0)) }
+            mBinding.two.setOnClickListener { onBoxClicked(mBinding.two, WhichCell(0, 1)) }
+            mBinding.three.setOnClickListener { onBoxClicked(mBinding.three, WhichCell(0, 2)) }
+            mBinding.four.setOnClickListener { onBoxClicked(mBinding.four, WhichCell(1, 0)) }
+            mBinding.five.setOnClickListener { onBoxClicked(mBinding.five, WhichCell(1, 1)) }
+            mBinding.six.setOnClickListener { onBoxClicked(mBinding.six, WhichCell(1, 2)) }
+            mBinding.seven.setOnClickListener { onBoxClicked(mBinding.seven, WhichCell(2, 0)) }
+            mBinding.eight.setOnClickListener { onBoxClicked(mBinding.eight, WhichCell(2, 1)) }
+            mBinding.nine.setOnClickListener { onBoxClicked(mBinding.nine, WhichCell(2, 2)) }
 
         return mBinding.root
+
     }
 
     // WHY DONT I JUST SIMULATE ONBOX CLIIIIIIIIIIICK
-    private fun onBoxClicked(box: TextView, whichCell: WhichCell) {
+    fun onBoxClicked(box: TextView, whichCell: WhichCell) {
         if (box.text.isEmpty()) {
             box.text = gameManager.currentPlayerMark
             val winningLine = gameManager.makeMove(whichCell)
@@ -56,13 +58,16 @@ class FirstGameFragment : Fragment() {
             //передаем эстафету компьютеру
             var emptyCellsNum = emptyCellsNum()
             var emptyCellsList = emptyCellsList(emptyCellsNum)
+
+            //val message: Deferred<String> = async{ getMessage()}
+//            var compMoved: Deferred<Boolean> =
+//                async { computerMakesMove(box, whichCell, emptyCellsList) }
             computerMakesMove(box, whichCell, emptyCellsList)
         }
-
         mBinding.startNewGameButton.setOnClickListener {
-            mBinding.startNewGameButton.visibility = View.GONE
-            gameManager.reset()
-            resetboxes()
+        mBinding.startNewGameButton.visibility = View.GONE
+        gameManager.reset()
+        resetboxes()
         }
 
     }
@@ -71,7 +76,7 @@ class FirstGameFragment : Fragment() {
         box: TextView,
         whichCell: WhichCell,
         list: MutableList<TextView>
-    ) {
+    ): Boolean {
         GlobalScope.launch(Dispatchers.IO) {
             //Log.d("0000000000000000000", "ss" + emptyCellsNum())
             val winningLine = gameManager.makeMove(whichCell)
@@ -92,6 +97,7 @@ class FirstGameFragment : Fragment() {
                 }
             }
         }
+        return true
     }
 
     fun emptyCellsList(i: Int): MutableList<TextView> {
