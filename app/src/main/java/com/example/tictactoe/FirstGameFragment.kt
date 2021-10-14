@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 class FirstGameFragment : Fragment() {
 
     lateinit var gameManager: MyGameManager
-    var computerTurn: Boolean = true
 
     private var _binding: FragmentFirstGameBinding? = null
     val mBinding get() = _binding!!

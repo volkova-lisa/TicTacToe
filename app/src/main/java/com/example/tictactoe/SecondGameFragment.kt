@@ -1,6 +1,7 @@
 package com.example.tictactoe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.example.tictactoe.databinding.FragmentSecondGameBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SecondGameFragment : Fragment() {
 
@@ -45,14 +50,69 @@ class SecondGameFragment : Fragment() {
                 disableBoxes()
                 mBinding.startNewGameButtonNew.visibility = View.VISIBLE
                 showWinner(winningLine)
+                gameManager.currentPlayer = 3 - gameManager.currentPlayer
             }
+            //передаем эстафету компьютеру
+            var emptyCellsNum = emptyCellsNum()
+            var emptyCellsList = emptyCellsList(emptyCellsNum)
+            computerMakesMove(box, whichCell, emptyCellsList)
         }
         mBinding.startNewGameButtonNew.setOnClickListener {
             mBinding.startNewGameButtonNew.visibility = View.GONE
             gameManager.reset()
             resetboxes()
         }
+    }
+    private fun computerMakesMove(
+        box: TextView,
+        whichCell: WhichCell,
+        list: MutableList<TextView>
+    ) {
+        GlobalScope.launch(Dispatchers.IO) {
+            //Log.d("0000000000000000000", "ss" + emptyCellsNum())
+            val winningLine = gameManager.makeMove(whichCell)
+            delay(2000)
+            if (winningLine != null) {
+                showWinner(winningLine)
+                disableBoxes()
+                mBinding.startNewGameButtonNew.visibility = View.VISIBLE
+                gameManager.currentPlayer = 3 - gameManager.currentPlayer
 
+            } else {
+                if (list.size != 0) {
+                    val compBox = (0 until list.size).random()
+                    Log.d("6666666666666666", "hh" + compBox + "+" + list)
+                    list[compBox]!!.text = "0"
+                }
+            }
+        }
+    }
+    fun emptyCellsList(i: Int): MutableList<TextView> {
+        var mutList = mutableListOf<TextView>()
+        if (mBinding.oneNew.text.isEmpty()) mutList.add(mBinding.oneNew)
+        if (mBinding.twoNew.text.isEmpty()) mutList.add(mBinding.twoNew)
+        if (mBinding.threeNew.text.isEmpty()) mutList.add(mBinding.threeNew)
+        if (mBinding.fourNew.text.isEmpty()) mutList.add(mBinding.fourNew)
+        if (mBinding.fiveNew.text.isEmpty()) mutList.add(mBinding.fiveNew)
+        if (mBinding.sixNew.text.isEmpty()) mutList.add(mBinding.sixNew)
+        if (mBinding.sevenNew.text.isEmpty()) mutList.add(mBinding.sevenNew)
+        if (mBinding.eightNew.text.isEmpty()) mutList.add(mBinding.eightNew)
+        if (mBinding.nineNew.text.isEmpty()) mutList.add(mBinding.nineNew)
+        return mutList
+    }
+
+    fun emptyCellsNum(): Int {
+        var num = 0
+        if (mBinding.oneNew.text.isEmpty()) num++
+        if (mBinding.twoNew.text.isEmpty()) num++
+        if (mBinding.threeNew.text.isEmpty()) num++
+        if (mBinding.fourNew.text.isEmpty()) num++
+        if (mBinding.fiveNew.text.isEmpty()) num++
+        if (mBinding.sixNew.text.isEmpty()) num++
+        if (mBinding.sevenNew.text.isEmpty()) num++
+        if (mBinding.eightNew.text.isEmpty()) num++
+        if (mBinding.nineNew.text.isEmpty()) num++
+        return num
     }
 
     private fun resetboxes() {
