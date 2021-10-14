@@ -40,40 +40,16 @@ class FirstGameFragment : Fragment() {
     }
 // WHY DONT I JUST SIMULATE ONBOX CLIIIIIIIIIIICK
     private fun onBoxClicked(box: TextView, whichCell: WhichCell) {
-        if (box.text.isEmpty()) {
-            //wrap makemove in if?
-            if (gameManager.currentPlayerMark == "X") {
-                box.text = gameManager.currentPlayerMark
-                val winningLine = gameManager.makeMove(whichCell)
-                if (winningLine != null) {
-                    disableBoxes()
-                    mBinding.startNewGameButton.visibility = View.VISIBLE
-                    showWinner(winningLine)
-                }
-                    //передаем естафету компьютеру
-            } else {
-
-                //make not move but simulateCompMove
-                //gameManager.simulateCompMove()
-
-                box.text = gameManager.currentPlayerMark
-                val winningLine = gameManager.makeMove(whichCell)
-                Log.d("+++", "+++" + whichCell)
-                if (winningLine != null) {
-                    disableBoxes()
-                    mBinding.startNewGameButton.visibility = View.VISIBLE
-                    //showWinner(winningLine)
-                }
-            }
-
-//                box.text = gameManager.currentPlayerMark
-//                val winningLine = gameManager.makeMove(whichCell)
-//                if (winningLine != null) {
-//                    disableBoxes()
-//                    mBinding.startNewGameButton.visibility = View.VISIBLE
-//                    showWinner(winningLine)
-                }
-
+    if (box.text.isEmpty()) {
+        box.text = gameManager.currentPlayerMark
+        val winningLine = gameManager.makeMove(whichCell)
+        if (winningLine != null) {
+            disableBoxes()
+            mBinding.startNewGameButton.visibility = View.VISIBLE
+            showWinner(winningLine)
+        }
+        //передаем естафету компьютеру
+    }
 
         mBinding.startNewGameButton.setOnClickListener {
             mBinding.startNewGameButton.visibility = View.GONE

@@ -29,12 +29,6 @@ class MyGameManager {
             if (winningLine == null) {
                 currentPlayer = 3 - currentPlayer
                 Log.d("---------", "my array " + whichCell.row + whichCell.column)
-                //here becomes comp turn
-//                if (currentPlayer%2 == 0) {
-//                    //simulate click??
-//                        simulateCompMove()
-//                    Log.d("-----------------","-----------------------------------------------")
-//                }
             }
 
             return winningLine
@@ -44,14 +38,6 @@ class MyGameManager {
           fun simulateCompMove(whichCell: WhichCell) {
           //withContext(Dispatchers.IO) {
             //delay(2000L + Random.nextInt(1, 10) * 1000L)
-//            for (i in 0 until state.size)
-//                for (j in 0 until state.size)
-//                {
-//                    if (state[i][j] == 0) { state[i][j] = 2}
-//                    Log.d("---------", "my array " + i + j)
-//                }
-
-            //}
         }
 
 
