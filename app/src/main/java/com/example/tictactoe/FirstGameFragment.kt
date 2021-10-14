@@ -2,20 +2,20 @@ package com.example.tictactoe
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import com.example.tictactoe.databinding.FragmentFirstGameBinding
 
 class FirstGameFragment : Fragment() {
 
     lateinit var gameManager: MyGameManager
-    var computerTurn : Boolean = true
+    var computerTurn: Boolean = true
 
-    private var _binding : FragmentFirstGameBinding? = null
+    private var _binding: FragmentFirstGameBinding? = null
     val mBinding get() = _binding!!
 
     override fun onCreateView(
@@ -38,25 +38,26 @@ class FirstGameFragment : Fragment() {
 
         return mBinding.root
     }
-// WHY DONT I JUST SIMULATE ONBOX CLIIIIIIIIIIICK
-    private fun onBoxClicked(box: TextView, whichCell: WhichCell) {
-    if (box.text.isEmpty()) {
-        box.text = gameManager.currentPlayerMark
-        val winningLine = gameManager.makeMove(whichCell)
-        if (winningLine != null) {
-            disableBoxes()
-            mBinding.startNewGameButton.visibility = View.VISIBLE
-            showWinner(winningLine)
-            gameManager.currentPlayer = 3 - gameManager.currentPlayer
-        }
 
-        //передаем естафету компьютеру
-        var emptyCellsNum = emptyCellsNum()
-        var emptyCellsList = emptyCellsList(emptyCellsNum())
-        computerMakesMove(box,whichCell, emptyCellsList)
-        //if (mBinding.one.text == "" ) mBinding.one.performClick()
-        //else  mBinding.two.performClick()
-    }
+    // WHY DONT I JUST SIMULATE ONBOX CLIIIIIIIIIIICK
+    private fun onBoxClicked(box: TextView, whichCell: WhichCell) {
+        if (box.text.isEmpty()) {
+            box.text = gameManager.currentPlayerMark
+            val winningLine = gameManager.makeMove(whichCell)
+            if (winningLine != null) {
+                disableBoxes()
+                mBinding.startNewGameButton.visibility = View.VISIBLE
+                showWinner(winningLine)
+                gameManager.currentPlayer = 3 - gameManager.currentPlayer
+            }
+
+            //передаем естафету компьютеру
+            var emptyCellsNum = emptyCellsNum()
+            var emptyCellsList = emptyCellsList(emptyCellsNum())
+            computerMakesMove(box, whichCell, emptyCellsList)
+            //if (mBinding.one.text == "" ) mBinding.one.performClick()
+            //else  mBinding.two.performClick()
+        }
 
         mBinding.startNewGameButton.setOnClickListener {
             mBinding.startNewGameButton.visibility = View.GONE
@@ -66,26 +67,31 @@ class FirstGameFragment : Fragment() {
 
     }
 
-    private fun computerMakesMove(box: TextView, whichCell: WhichCell, list: MutableList<TextView>) {
-        Log.d("0000000000000000000","ss"+emptyCellsNum())
-        val compBox = (0 until list.size).random()
-        Log.d("6666666666666666", "hh" + compBox + "+" + list)
-        list[compBox]!!.text = "0"
-//        when (compBox) {
-//            1 -> if (mBinding.one.text.isEmpty()) mBinding.one.text = "0"
-//            2 -> if (mBinding.two.text.isEmpty()) mBinding.two.text = "0"
-//            3 -> if (mBinding.three.text.isEmpty()) mBinding.three.text = "0"
-//            4 -> if (mBinding.four.text.isEmpty()) mBinding.four.text = "0"
-//            5 -> if (mBinding.five.text.isEmpty()) mBinding.five.text = "0"
-//            6 -> if (mBinding.six.text.isEmpty()) mBinding.six.text = "0"
-//            7 -> if (mBinding.seven.text.isEmpty()) mBinding.seven.text = "0"
-//            8 -> if (mBinding.eight.text.isEmpty()) mBinding.eight.text = "0"
-//            9 -> if (mBinding.nine.text.isEmpty()) mBinding.nine.text = "0"
-//        }
+    private fun computerMakesMove(
+        box: TextView,
+        whichCell: WhichCell,
+        list: MutableList<TextView>
+    ) {
+        Log.d("0000000000000000000", "ss" + emptyCellsNum())
+        val winningLine = gameManager.makeMove(whichCell)
+
+        if (winningLine != null) {
+            if (list.size != 0) {
+                val compBox = (0 until list.size).random()
+                Log.d("6666666666666666", "hh" + compBox + "+" + list)
+                list[compBox]!!.text = "0"
+            }
+            showWinner(winningLine)
+        } else {
+            disableBoxes()
+            mBinding.startNewGameButton.visibility = View.VISIBLE
+            gameManager.currentPlayer = 3 - gameManager.currentPlayer
+
+        }
 
     }
 
-    fun emptyCellsList(i : Int) : MutableList<TextView> {
+    fun emptyCellsList(i: Int): MutableList<TextView> {
         var mutList = mutableListOf<TextView>()
         if (mBinding.one.text.isEmpty()) mutList.add(mBinding.one)
         if (mBinding.two.text.isEmpty()) mutList.add(mBinding.two)
@@ -100,7 +106,7 @@ class FirstGameFragment : Fragment() {
     }
 
 
-    fun emptyCellsNum() : Int {
+    fun emptyCellsNum(): Int {
         var num = 0
         if (mBinding.one.text.isEmpty()) num++
         if (mBinding.two.text.isEmpty()) num++
@@ -159,16 +165,36 @@ class FirstGameFragment : Fragment() {
 
     private fun showWinner(lines: Lines) {
         val (winningBoxes, background) = when (lines) {
-            Lines.ROW_0 -> Pair(listOf(mBinding.one, mBinding.two, mBinding.three), R.drawable.horiz_line)
-            Lines.ROW_1 -> Pair(listOf(mBinding.four, mBinding.five, mBinding.six), R.drawable.horiz_line)
-            Lines.ROW_2 -> Pair(listOf(mBinding.seven, mBinding.eight, mBinding.nine), R.drawable.horiz_line)
-            Lines.COLUMN_0 -> Pair(listOf(mBinding.one, mBinding.four, mBinding.seven), R.drawable.vert_line)
-            Lines.COLUMN_1 -> Pair(listOf(mBinding.two, mBinding.five, mBinding.eight), R.drawable.vert_line)
-            Lines.COLUMN_2 -> Pair(listOf(mBinding.three, mBinding.six, mBinding.nine), R.drawable.vert_line)
-            Lines.DIAGONAL_LEFT -> Pair(listOf(mBinding.one, mBinding.five, mBinding.nine),
+            Lines.ROW_0 -> Pair(
+                listOf(mBinding.one, mBinding.two, mBinding.three),
+                R.drawable.horiz_line
+            )
+            Lines.ROW_1 -> Pair(
+                listOf(mBinding.four, mBinding.five, mBinding.six),
+                R.drawable.horiz_line
+            )
+            Lines.ROW_2 -> Pair(
+                listOf(mBinding.seven, mBinding.eight, mBinding.nine),
+                R.drawable.horiz_line
+            )
+            Lines.COLUMN_0 -> Pair(
+                listOf(mBinding.one, mBinding.four, mBinding.seven),
+                R.drawable.vert_line
+            )
+            Lines.COLUMN_1 -> Pair(
+                listOf(mBinding.two, mBinding.five, mBinding.eight),
+                R.drawable.vert_line
+            )
+            Lines.COLUMN_2 -> Pair(
+                listOf(mBinding.three, mBinding.six, mBinding.nine),
+                R.drawable.vert_line
+            )
+            Lines.DIAGONAL_LEFT -> Pair(
+                listOf(mBinding.one, mBinding.five, mBinding.nine),
                 R.drawable.left_digonal
             )
-            Lines.DIAGONAL_RIGHT -> Pair(listOf(mBinding.three, mBinding.five, mBinding.seven),
+            Lines.DIAGONAL_RIGHT -> Pair(
+                listOf(mBinding.three, mBinding.five, mBinding.seven),
                 R.drawable.right_diagonal
             )
         }
