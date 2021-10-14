@@ -47,12 +47,14 @@ class FirstGameFragment : Fragment() {
             disableBoxes()
             mBinding.startNewGameButton.visibility = View.VISIBLE
             showWinner(winningLine)
+            gameManager.currentPlayer = 3 - gameManager.currentPlayer
         }
-        //передаем естафету компьютеру
-        gameManager.currentPlayer = 3 - gameManager.currentPlayer
 
-        if (mBinding.one.text == "" ) mBinding.one.performClick()
-        else  mBinding.two.performClick()
+        //передаем естафету компьютеру
+        emptyCellsNum()
+        computerMakesMove(box,whichCell)
+        //if (mBinding.one.text == "" ) mBinding.one.performClick()
+        //else  mBinding.two.performClick()
 
 
     }
@@ -63,6 +65,24 @@ class FirstGameFragment : Fragment() {
             resetboxes()
         }
 
+    }
+
+    private fun computerMakesMove(box: TextView, whichCell: WhichCell) {
+        Log.d("0000000000000000000","ss"+emptyCellsNum())
+        val compBox = (0..9).random()
+    }
+
+    fun emptyCellsNum() : Int {
+        var num: Int = 1
+        if (mBinding.one.text.isEmpty()) num++
+        if (mBinding.two.text.isEmpty()) num++
+        if (mBinding.three.text.isEmpty()) num++
+        if (mBinding.four.text.isEmpty()) num++
+        if (mBinding.five.text.isEmpty()) num++
+        if (mBinding.six.text.isEmpty()) num++
+        if (mBinding.seven.text.isEmpty()) num++
+        if (mBinding.eight.text.isEmpty()) num++
+        return num
     }
 
 
