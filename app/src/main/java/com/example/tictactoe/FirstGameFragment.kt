@@ -51,6 +51,7 @@ class FirstGameFragment : Fragment() {
                 }
             } else {
                 //make not move but simulateCompMove
+                //gameManager.simulateCompMove()
             }
         }
         mBinding.startNewGameButton.setOnClickListener {
