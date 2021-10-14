@@ -44,11 +44,13 @@ class MyGameManager {
           fun simulateCompMove()= scope.launch {
         withContext(Dispatchers.IO) {
             delay(2000L + Random.nextInt(1, 10) * 1000L)
-//            for (i in 0 until state.size)
-//                for (j in 0 until state.size)
-//                {
-//                    if (state[i][j] == 0)
-//                }
+            for (i in 0 until state.size)
+                for (j in 0 until state.size)
+                {
+                    if (state[i][j] == 0) { state[i][j] = 2}
+                    Log.d("---------", "my array " + i + j)
+                }
+
             }
         }
 
