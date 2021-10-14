@@ -52,6 +52,7 @@ class FirstGameFragment : Fragment() {
 
         //передаем естафету компьютеру
         emptyCellsNum()
+        emptyCellsList()
         computerMakesMove(box,whichCell)
         //if (mBinding.one.text == "" ) mBinding.one.performClick()
         //else  mBinding.two.performClick()
